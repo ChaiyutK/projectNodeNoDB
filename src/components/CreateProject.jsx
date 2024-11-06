@@ -2,7 +2,7 @@ import React from "react";
 
 export default function CreateProject({onCreateChange}) {
   return (
-    <div className="w-[80%] align-middle">
+    <div className="w-[80%]">
       <h2 className="font-medium text-[#636262]">TITLE</h2>
       <input onChange={(event)=>onCreateChange(event.target.value,"Title")} className="w-[100%] border-b-2 border-gray-200 bg-[#ada49e] focus:border-black" type="text" />
       <h2 className="font-medium text-[#636262]">DESCRIPTION</h2>

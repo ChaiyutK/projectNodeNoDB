@@ -6,17 +6,30 @@ const ActiveProject = forwardRef(function ActiveProject(
   ref
 ) {
   return (
-    <div className="flex flex-col gap-7 justify-start items-center w-full h-3/5">
-      <h1>{activeData.Title}</h1>
-      <button onClick={() => onDeleteButton(activeData.Title)}>Delete</button>
-      <input ref={ref} type="text" />
-      <button onClick={() => onCreateTask(activeData.Title)}>Add Task</button>
+    <div className="w-[80%]">
+      <div className="flex justify-between items-center w-[100%]">
+        <h1 className="font-semibold text-2xl text-amber-700">{activeData.Title}</h1>
+        <button onClick={() => onDeleteButton(activeData.Title)}>Delete</button>
+      </div>
+      <div>
+        <h2>{activeData.DueDate}</h2>
+        <p>{activeData.Description}</p>
+        <div className="w-[100%] border-b-2 border-black"></div>
+      </div>
+      <div>
+        <h1 className="font-semibold text-2xl text-amber-700">Tasks</h1>
+        <input className="w-[60%] mr-4 border-b-2 border-gray-200 bg-[#ada49e] focus:border-black" ref={ref} type="text" />
+        <button onClick={() => onCreateTask(activeData.Title)}>Add Task</button>
+      </div>
       {activeData.Task == undefined
         ? ""
         : activeData.Task.map((task, index) => (
-            <p key={index}>
+            <p className="flex justify-between" key={index}>
               {task}
-              <button className="ml-4" onClick={() => onDeleteTask(index,activeData.Title)}>
+              <button
+                className="ml-4"
+                onClick={() => onDeleteTask(index, activeData.Title)}
+              >
                 Clear
               </button>
             </p>

@@ -99,13 +99,13 @@ function App() {
       );
       return updatedProject;
     }); */
-
+    const taskValue = taskInputRef.current.value;
     setProjectList((prevProjectList) => {
       const updatedProjectList = prevProjectList.map((project) => {
         if (project.Title == projectName) {
           return {
             ...project,
-            Task: [...(project.Task || []), taskInputRef.current.value],
+            Task: [...(project.Task || []), taskValue],
           };
         }
         return project;
@@ -116,8 +116,10 @@ function App() {
           return project.Title == projectName;
         })
       );
+
       return updatedProjectList;
     });
+    taskInputRef.current.value = "";
 
     /* const newTask = taskInputRef.current.value;
 
@@ -143,11 +145,11 @@ function App() {
     }); */
   }
 
-  function handleDeleteTask(index,projectName){
-    const updatedTask = activeProject.Task.filter((task,indexTask)=>{
-      return index!=indexTask;
-    })
-   //console.log(updatedTask);
+  function handleDeleteTask(index, projectName) {
+    const updatedTask = activeProject.Task.filter((task, indexTask) => {
+      return index != indexTask;
+    });
+    //console.log(updatedTask);
     setProjectList((prevProjectList) => {
       const updatedProjectList = prevProjectList.map((project) => {
         if (project.Title == projectName) {
@@ -196,7 +198,7 @@ function App() {
             ))}
           </div>
         </Section>
-        <Section styleSection="flex justify-center items-center w-4/5">
+        <Section styleSection="flex flex-wrap justify-center items-center w-4/5">
           {pageActive == 1 && (
             <div className="flex flex-col gap-7 justify-start items-center w-full h-3/5">
               <img className="w-32" src={imgNote} alt="note picture" />
