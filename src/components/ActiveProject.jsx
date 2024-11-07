@@ -4,7 +4,11 @@ import { forwardRef } from "react";
 const ActiveProject = forwardRef(function ActiveProject(
   { onDeleteButton, onCreateTask, activeData, onDeleteTask },
   ref
-) {
+) 
+{
+  let date = new Date(activeData.DueDate);
+  date = date.toString().substring(4,15);
+  
   return (
     <div className="w-[80%]">
       <div className="flex justify-between items-center w-[100%]">
@@ -12,7 +16,7 @@ const ActiveProject = forwardRef(function ActiveProject(
         <button onClick={() => onDeleteButton(activeData.Title)}>Delete</button>
       </div>
       <div>
-        <h2>{activeData.DueDate}</h2>
+        <h2>{date.toString()}</h2>
         <p>{activeData.Description}</p>
         <div className="w-[100%] border-b-2 border-black"></div>
       </div>
