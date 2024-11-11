@@ -4,6 +4,7 @@ import Section from "./components/Section";
 import Button from "./components/Button";
 import CreateProject from "./components/CreateProject";
 import ActiveProject from "./components/ActiveProject";
+import Popup from "./components/Popup";
 
 function App() {
   const taskInputRef = useRef();
@@ -172,6 +173,7 @@ function App() {
 
   return (
     <>
+    <Popup/>
       <div className="flex justify-center h-screen">
         <Section styleSection="flex justify-center items-end w-1/5">
           <div className="w-full h-[95%] bg-[#100e0c] rounded-r-xl">
