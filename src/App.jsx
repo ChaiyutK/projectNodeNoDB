@@ -8,6 +8,7 @@ import Popup from "./components/Popup";
 
 function App() {
   const taskInputRef = useRef();
+  const dialog = useRef();
   const [pageActive, setPageActive] = useState(1);
   const [createProject, setCreateProject] = useState({
     Title: "",
@@ -22,18 +23,26 @@ function App() {
     if (typeButton == "CreateProject") {
       setPageActive(2);
     } else if (typeButton == "Save") {
-      setProjectList((prevProjectList) => {
-        const newProjestList = [...prevProjectList, createProject];
-        return newProjestList;
-      });
-      setCreateProject({
-        Title: "",
-        Description: "",
-        DueDate: "",
-        Task: [],
-      });
-      setPageActive(1);
-      //console.log(projectList);
+      if (
+        createProject.Title == "" ||
+        createProject.Description == "" ||
+        createProject.DueDate == ""
+      ) {
+        handleErrorDialog();
+      } else {
+        setProjectList((prevProjectList) => {
+          const newProjestList = [...prevProjectList, createProject];
+          return newProjestList;
+        });
+        setCreateProject({
+          Title: "",
+          Description: "",
+          DueDate: "",
+          Task: [],
+        });
+        setPageActive(1);
+        //console.log(projectList);
+      }
     } else if (typeButton == "Cancel") {
       setPageActive(1);
     } else if (typeButton == "ProjectList") {
@@ -79,7 +88,10 @@ function App() {
   }
 
   function handleCreateTask(projectName) {
-    /* setProjectList((prevProjectList)=>{
+    if (taskInputRef.current.value == "") {
+      handleErrorDialog();
+    } else {
+      /* setProjectList((prevProjectList)=>{
      const project = prevProjectList.filter((acProject)=>{
       return acProject.Title == projectName;
      })
@@ -87,7 +99,7 @@ function App() {
      console.log(project)
     }) */
 
-    /* setActiveProject((prevActiveProject) => {
+      /* setActiveProject((prevActiveProject) => {
       const currentTasks = prevActiveProject.Task || [];
       const updatedProject = {
         ...prevActiveProject,
@@ -100,28 +112,28 @@ function App() {
       );
       return updatedProject;
     }); */
-    const taskValue = taskInputRef.current.value;
-    setProjectList((prevProjectList) => {
-      const updatedProjectList = prevProjectList.map((project) => {
-        if (project.Title == projectName) {
-          return {
-            ...project,
-            Task: [...(project.Task || []), taskValue],
-          };
-        }
-        return project;
+      const taskValue = taskInputRef.current.value;
+      setProjectList((prevProjectList) => {
+        const updatedProjectList = prevProjectList.map((project) => {
+          if (project.Title == projectName) {
+            return {
+              ...project,
+              Task: [...(project.Task || []), taskValue],
+            };
+          }
+          return project;
+        });
+
+        setActiveProject(
+          updatedProjectList.find((project) => {
+            return project.Title == projectName;
+          })
+        );
+
+        return updatedProjectList;
       });
-
-      setActiveProject(
-        updatedProjectList.find((project) => {
-          return project.Title == projectName;
-        })
-      );
-
-      return updatedProjectList;
-    });
-    taskInputRef.current.value = "";
-
+      taskInputRef.current.value = "";
+    }
     /* const newTask = taskInputRef.current.value;
 
     // อัพเดต projectList และสร้าง project ที่แก้ไขแล้ว
@@ -171,9 +183,15 @@ function App() {
     });
   }
 
+  function handleErrorDialog() {
+    dialog.current.open();
+  }
+
+  function validData() {}
+
   return (
     <>
-    <Popup/>
+      <Popup ref={dialog} onErrorDialog={handleErrorDialog} />
       <div className="flex justify-center h-screen">
         <Section styleSection="flex justify-center items-end w-1/5">
           <div className="w-full h-[95%] bg-[#100e0c] rounded-r-xl">
